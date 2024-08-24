@@ -1,0 +1,41 @@
+# This is a sample deployment manifest file for a simple web application.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app-github-actions
+  labels:
+    app: react-app-github-actions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app-github-actions
+  template:
+    metadata:
+      labels:
+        app: react-app-github-actions
+    spec:
+      containers:
+      - name: react-app-github-actions
+        image: boubamahir/react-app-github-actions:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "256Mi"
+        limits:
+          cpu: "250m"
+          memory: "512Mi"

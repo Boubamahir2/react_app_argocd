@@ -1,0 +1,16 @@
+# This is a sample deployment manifest file for a simple web application.
+# Service for the application
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app-github-actions
+  labels:
+    app: react-app-github-actions
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: react-app-github-actions
+  type: NodePort
